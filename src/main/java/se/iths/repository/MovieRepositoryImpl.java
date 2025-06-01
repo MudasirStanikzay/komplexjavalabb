@@ -85,3 +85,86 @@ public class MovieRepositoryImpl implements MovieRepository {
                 .setParameter("director", "%" + director + "%")
                 .getResultList();
     }
+
+    @Override
+    public List<Movie> findByDurationGreaterThanEqual(int duration) {
+        return em.createQuery("SELECT m FROM Movie m WHERE m.duration >= :duration", Movie.class)
+                .setParameter("duration", duration)
+                .getResultList();
+    }
+
+    @Override
+    @Transactional
+    public <S extends Movie> S insert(S entity) {
+        em.persist(entity);
+        return entity;
+    }
+
+    @Override
+    @Transactional
+    public <S extends Movie> List<S> insertAll(List<S> entities) {
+        for (S entity : entities) {
+            em.persist(entity);
+        }
+        return entities;
+    }
+
+    @Override
+    @Transactional
+    public <S extends Movie> S update(S entity) {
+        return em.merge(entity);
+    }
+
+    @Override
+    @Transactional
+    public <S extends Movie> List<S> updateAll(List<S> entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            entities.set(i, em.merge(entities.get(i)));
+        }
+        return entities;
+    }
+
+    @Override
+    @Transactional
+    public <S extends Movie> S save(S entity) {
+        if (entity.getId() == null) {
+            em.persist(entity);
+            return entity;
+        } else {
+            return em.merge(entity);
+        }
+    }
+
+    @Override
+    @Transactional
+    public <S extends Movie> List<S> saveAll(List<S> entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i).getId() == null) {
+                em.persist(entities.get(i));
+            } else {
+                entities.set(i, em.merge(entities.get(i)));
+            }
+        }
+        return entities;
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        findById(id).ifPresent(em::remove);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Movie entity) {
+        em.remove(em.contains(entity) ? entity : em.merge(entity));
+    }
+
+    @Override
+    @Transactional
+    public void deleteAll(List<? extends Movie> entities) {
+        for (Movie entity : entities) {
+            em.remove(em.contains(entity) ? entity : em.merge(entity));
+        }
+    }
+}
