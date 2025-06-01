@@ -1,47 +1,35 @@
 package se.iths.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "movies")
 public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Titel måste anges")
-    @Size(max = 100, message = "Maxlängd för titel är 100 tecken")
     private String title;
-
-    @Size(max = 1000, message = "Beskrivning får max vara 1000 tecken lång")
     private String description;
-
-    @NotNull(message = "Datum för utgivning krävs")
-    @PastOrPresent(message = "Utgivningsdatum kan inte vara i framtiden")
     private LocalDate releaseDate;
-
-    @NotBlank(message = "Regissör måste anges")
     private String director;
-
-    @Min(value = 1, message = "Filmens längd måste vara minst 1 minut")
     private int duration;
 
-    // --- Konstruktorer ---
+    // Standardkonstruktor krävs av JPA
+    public Movie() {}
 
-    public Movie() {
-        // Default-konstruktor krävs av JPA
-    }
-
-    public Movie(String title, String director, int duration) {
+    // Fullständig konstruktor – perfekt för tester
+    public Movie(Long id, String title, String description, LocalDate releaseDate, String director, int duration) {
+        this.id = id;
         this.title = title;
+        this.description = description;
+        this.releaseDate = releaseDate;
         this.director = director;
         this.duration = duration;
     }
 
+    // Konstruktor utan id – kan användas för skapande
     public Movie(String title, String description, LocalDate releaseDate, String director, int duration) {
         this.title = title;
         this.description = description;
@@ -50,13 +38,13 @@ public class Movie {
         this.duration = duration;
     }
 
-    // --- Getters och Setters ---
+    // Getters och setters
 
     public Long getId() {
         return id;
     }
 
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
