@@ -48,4 +48,17 @@ public class MovieMapper {
             movie.getReleaseDate()
         );
     }
+
+    public MovieDTO toDto(Movie movie) {
+        return toDTO(movie);
+    }
+
+    public Movie fromCreateDto(CreateMovieDTO dto) {
+        if (dto == null) {}
+        return null;
+    }
+
+    public void updateEntity(Movie movie, UpdateMovieDTO updateDto) {
+        if (updateDto == null) {}
+    }
 }
