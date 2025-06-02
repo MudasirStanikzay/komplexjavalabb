@@ -21,15 +21,34 @@ public class UpdateMovieDTO {
     @Min(value = 1, message = "Duration must be at least 1 minute")
     private int duration;
 
-    public UpdateMovieDTO() {
-    }
-
+    // Full constructor
     public UpdateMovieDTO(String title, String description, LocalDate releaseDate, String director, int duration) {
         this.title = title;
         this.description = description;
         this.releaseDate = releaseDate;
         this.director = director;
         this.duration = duration;
+    }
+
+    // Getters
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public int getDuration() {
+        return duration;
     }
 
     public String title() {
@@ -40,10 +59,6 @@ public class UpdateMovieDTO {
         return description;
     }
 
-    public LocalDate releaseDate() {
-        return releaseDate;
-    }
-
     public String director() {
         return director;
     }
@@ -52,5 +67,9 @@ public class UpdateMovieDTO {
         return duration;
     }
 
-    // Getters and setters ...
+    public LocalDate releaseDate() {
+        return releaseDate;
+    }
+
+    // (Setters kan läggas till vid behov)
 }
