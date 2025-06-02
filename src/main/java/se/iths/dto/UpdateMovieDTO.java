@@ -1,25 +1,20 @@
 package se.iths.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+
 import java.time.LocalDate;
 
-public class UpdateMovieDTO {
-
-    @NotBlank(message = "Title must not be blank")
-    @Size(max = 100, message = "Title must be at most 100 characters")
-    private String title;
-
-    @Size(max = 1000, message = "Description must be at most 1000 characters")
-    private String description;
-
-    @PastOrPresent(message = "Release date cannot be in the future")
-    private LocalDate releaseDate;
-
-    @NotBlank(message = "Director must not be blank")
-    private String director;
-
-    @Min(value = 1, message = "Duration must be at least 1 minute")
-    private int duration;
+/**
+ * @param title Getters
+ */
+@Getter
+public record UpdateMovieDTO(
+        @NotBlank(message = "Title must not be blank") @Size(max = 100, message = "Title must be at most 100 characters") String title,
+        @Size(max = 1000, message = "Description must be at most 1000 characters") String description,
+        @PastOrPresent(message = "Release date cannot be in the future") LocalDate releaseDate,
+        @NotBlank(message = "Director must not be blank") String director,
+        @Min(value = 1, message = "Duration must be at least 1 minute") int duration) {
 
     // Full constructor
     public UpdateMovieDTO(String title, String description, LocalDate releaseDate, String director, int duration) {
@@ -28,47 +23,6 @@ public class UpdateMovieDTO {
         this.releaseDate = releaseDate;
         this.director = director;
         this.duration = duration;
-    }
-
-    // Getters
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public LocalDate getReleaseDate() {
-        return releaseDate;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public String title() {
-        return title;
-    }
-
-    public String description() {
-        return description;
-    }
-
-    public String director() {
-        return director;
-    }
-
-    public int duration() {
-        return duration;
-    }
-
-    public LocalDate releaseDate() {
-        return releaseDate;
     }
 
     // (Setters kan läggas till vid behov)
