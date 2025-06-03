@@ -1,0 +1,24 @@
+embed-server --std-out=echo
+batch
+
+# Lägg till PostgreSQL JDBC-driver som modul (endast om ej redan som .jar-deploy)
+module add --name=org.postgresql --resources=${JBOSS_HOME}/standalone/deployments/postgresql.jar --dependencies=javax.api,javax.transaction.api
+
+# Registrera JDBC-driver
+jdbc-driver add --driver-name=postgresql --driver-module-name=org.postgresql --driver-class-name=org.postgresql.Driver
+
+# Skapa datasourcen
+data-source add \
+  --name=${DS_NAME} \
+  --jndi-name=${DS_JNDI} \
+  --driver-name=postgresql \
+  --connection-url=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME} \
+  --user-name=${DB_USER} \
+  --password=${DB_PASSWORD} \
+  --min-pool-size=5 \
+  --max-pool-size=20 \
+  --enabled=true \
+  --use-java-context=true
+
+run-batch
+stop-embedded-server
